@@ -48,3 +48,16 @@ class TokenCheckResponse {
 
   Map<String, dynamic> toJson() => _$TokenCheckResponseToJson(this);
 }
+
+@JsonSerializable()
+class LogoutResponse {
+  @JsonKey(name: "message")
+  String? message;
+
+  LogoutResponse(this.message);
+
+  factory LogoutResponse.fromJson(Map<String, dynamic> json) =>
+      _$LogoutResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LogoutResponseToJson(this);
+}

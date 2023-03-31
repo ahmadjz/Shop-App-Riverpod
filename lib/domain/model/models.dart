@@ -13,10 +13,17 @@ class UserData {
 }
 
 class Authentication {
-  UserData? userData;
-  UserToken userToken;
+  final UserData? userData;
+  final UserToken userToken;
   Authentication({
     required this.userData,
     required this.userToken,
+  });
+}
+
+class LogoutData {
+  final String message;
+  LogoutData({
+    required this.message,
   });
 }

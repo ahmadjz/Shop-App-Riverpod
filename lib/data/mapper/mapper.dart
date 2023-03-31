@@ -30,3 +30,11 @@ extension TokenCheckResponseMapper on TokenCheckResponse? {
     );
   }
 }
+
+extension LogoutResponseMapper on LogoutResponse? {
+  LogoutData toDomain() {
+    return LogoutData(
+      message: this?.message ?? AppConstants.empty,
+    );
+  }
+}

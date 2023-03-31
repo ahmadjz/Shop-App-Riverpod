@@ -31,6 +31,7 @@ class AuthNotifier extends StateNotifier<IsLoading> {
         );
       },
       (data) {
+        state = false;
         ref.read(userInfoProvider.notifier).updateState(
               AuthState(
                 userToken: data.userToken,

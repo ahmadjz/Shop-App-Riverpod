@@ -29,4 +29,7 @@ abstract class AppServiceClient {
   @GET("user/check")
   Future<TokenCheckResponse> checkToken(
       @Header(authorization) UserToken bearerToken);
+
+  @POST("user/logout")
+  Future<LogoutResponse> logout(@Header(authorization) UserToken bearerToken);
 }

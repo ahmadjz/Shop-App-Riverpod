@@ -10,4 +10,5 @@ abstract class Repository {
   Future<Either<Failure, Authentication>> register(
       RegisterRequest registerRequest);
   Future<Either<Failure, UserData>> checkToken(UserToken token);
+  Future<Either<Failure, LogoutData>> logout(UserToken token);
 }

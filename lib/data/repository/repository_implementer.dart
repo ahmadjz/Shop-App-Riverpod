@@ -74,4 +74,21 @@ class RepositoryImplementer implements Repository {
       return Left(DataSource.noInternetConnection.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, LogoutData>> logout(UserToken token) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await remoteDataSource.logout(token);
+        final LogoutData userData = response.toDomain();
+        return Right(userData);
+      } catch (error) {
+        return Left(
+          ErrorHandler.handle(error).failure,
+        );
+      }
+    } else {
+      return Left(DataSource.noInternetConnection.getFailure());
+    }
+  }
 }

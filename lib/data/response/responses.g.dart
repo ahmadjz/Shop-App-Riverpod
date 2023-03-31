@@ -48,3 +48,13 @@ Map<String, dynamic> _$TokenCheckResponseToJson(TokenCheckResponse instance) =>
       'user': instance.userData,
       'message': instance.message,
     };
+
+LogoutResponse _$LogoutResponseFromJson(Map<String, dynamic> json) =>
+    LogoutResponse(
+      json['message'] as String?,
+    );
+
+Map<String, dynamic> _$LogoutResponseToJson(LogoutResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
