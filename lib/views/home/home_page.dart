@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shop_app_riverpod/app/resources/strings_manager.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     .read(productsStateProvider.notifier)
                                     .gotToPreviousPage();
                               },
-                              child: const Text('Previous'),
+                              child: Text(AppStrings.previous.tr()),
                             ),
                           const Expanded(
                             child: SizedBox.shrink(),
@@ -81,7 +82,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     .read(productsStateProvider.notifier)
                                     .gotToNextPage();
                               },
-                              child: const Text('Next'),
+                              child: Text(AppStrings.next.tr()),
                             ),
                         ],
                       ),
