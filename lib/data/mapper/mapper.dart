@@ -38,3 +38,39 @@ extension LogoutResponseMapper on LogoutResponse? {
     );
   }
 }
+
+extension ProductResponseMapper on ProductResponse? {
+  ProductData toDomain() {
+    return ProductData(
+      id: this?.id ?? AppConstants.zero,
+      title: this?.title ?? AppConstants.empty,
+      description: this?.description ?? AppConstants.empty,
+      price: this?.price?.formatted ?? AppConstants.empty,
+      imageUrl:
+          this?.image?.conversions?.defaultConversion ?? AppConstants.empty,
+    );
+  }
+}
+
+extension MetaResponseMapper on MetaResponse? {
+  MetaData toDomain() {
+    return MetaData(
+      currentPage: this?.currentPage ?? AppConstants.zero,
+      lastPage: this?.lastPage ?? AppConstants.zero,
+    );
+  }
+}
+
+extension AllProductsResponseMapper on ProductsResponse? {
+  ProductsData toDomain() {
+    List<ProductData> products =
+        (this?.products?.map((productResponse) => productResponse.toDomain()) ??
+                const Iterable.empty())
+            .cast<ProductData>()
+            .toList();
+    return ProductsData(
+      products: products,
+      meta: this?.meta.toDomain(),
+    );
+  }
+}

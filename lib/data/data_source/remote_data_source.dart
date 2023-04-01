@@ -8,6 +8,7 @@ abstract class RemoteDataSource {
   Future<AuthenticationResponse> register(RegisterRequest registerRequest);
   Future<TokenCheckResponse> checkToken(UserToken token);
   Future<LogoutResponse> logout(UserToken token);
+  Future<ProductsResponse> fetchProducts(int page);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -40,6 +41,14 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
   Future<LogoutResponse> logout(UserToken token) async {
     return await appServiceClient.logout(
       "Bearer $token",
+    );
+  }
+
+  @override
+  Future<ProductsResponse> fetchProducts(int page) async {
+    return await appServiceClient.fetchProducts(
+      10,
+      page,
     );
   }
 }

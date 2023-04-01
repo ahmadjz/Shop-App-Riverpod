@@ -7,6 +7,8 @@ import 'package:shop_app_riverpod/data/response/responses.dart';
 part 'app_api.g.dart';
 
 const String authorization = "authorization";
+const String perPage = "perpage";
+const String page = "page";
 
 @RestApi(baseUrl: AppConstants.baseUrl)
 abstract class AppServiceClient {
@@ -32,4 +34,10 @@ abstract class AppServiceClient {
 
   @POST("user/logout")
   Future<LogoutResponse> logout(@Header(authorization) UserToken bearerToken);
+
+  @GET("product")
+  Future<ProductsResponse> fetchProducts(
+    @Query(perPage) int perPage,
+    @Query(page) int page,
+  );
 }

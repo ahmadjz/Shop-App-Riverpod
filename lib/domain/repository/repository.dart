@@ -11,4 +11,5 @@ abstract class Repository {
       RegisterRequest registerRequest);
   Future<Either<Failure, UserData>> checkToken(UserToken token);
   Future<Either<Failure, LogoutData>> logout(UserToken token);
+  Future<Either<Failure, ProductsData>> fetchProducts(int page);
 }

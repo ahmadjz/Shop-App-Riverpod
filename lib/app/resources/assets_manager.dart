@@ -3,6 +3,7 @@ const String jsonPath = "assets/animations";
 
 class ImageAssets {
   static const String logo = "$imagePath/logo.svg";
+  static const String productPlaceHolder = "$imagePath/product-placeholder.png";
 }
 
 class JsonAssets {

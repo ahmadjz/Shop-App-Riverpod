@@ -28,5 +28,8 @@
   "sendTimeOut": "Time out error, Try again later",
   "cacheError": "Cache error, Try again later",
   "noInternetConnection": "Please check your internet connection",
-  "defaultError": "Some thing went wrong, Try again later"
+  "defaultError": "Some thing went wrong, Try again later",
+  "products": "Products",
+  "next": "Next",
+  "previous": "Previous"
 }

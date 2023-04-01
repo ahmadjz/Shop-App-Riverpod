@@ -30,4 +30,7 @@ class AppStrings {
   static const String cacheError = "cacheError";
   static const String noInternetConnection = "noInternetConnection";
   static const String defaultError = "defaultError";
+  static const String products = "products";
+  static const String previous = "previous";
+  static const String next = "next";
 }

@@ -6,6 +6,8 @@ extension ContextExtension on BuildContext {
   void showNewDialog({
     required String title,
     required String content,
+    String? buttonText,
+    Function()? buttonAction,
   }) =>
       showDialog(
         context: this,
@@ -15,10 +17,11 @@ extension ContextExtension on BuildContext {
           actions: [
             TextButton(
               child: Text(
-                AppStrings.okay.tr(),
+                buttonText ?? AppStrings.okay.tr(),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                buttonAction?.call();
               },
             )
           ],

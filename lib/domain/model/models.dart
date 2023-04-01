@@ -27,3 +27,36 @@ class LogoutData {
     required this.message,
   });
 }
+
+class ProductData {
+  final int id;
+  final String title;
+  final String description;
+  final String price;
+  final String imageUrl;
+  ProductData({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+  });
+}
+
+class MetaData {
+  int currentPage;
+  int lastPage;
+  MetaData({
+    required this.currentPage,
+    required this.lastPage,
+  });
+}
+
+class ProductsData {
+  final List<ProductData> products;
+  final MetaData? meta;
+  ProductsData({
+    required this.products,
+    required this.meta,
+  });
+}

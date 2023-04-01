@@ -91,4 +91,27 @@ class RepositoryImplementer implements Repository {
       return Left(DataSource.noInternetConnection.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, ProductsData>> fetchProducts(int page) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await remoteDataSource.fetchProducts(page);
+        const x = 1;
+        final ProductsData productsData = response.toDomain();
+        const y = 1;
+        return Right(
+          productsData,
+        );
+      } catch (error) {
+        return Left(
+          ErrorHandler.handle(error).failure,
+        );
+      }
+    } else {
+      return Left(
+        DataSource.noInternetConnection.getFailure(),
+      );
+    }
+  }
 }
