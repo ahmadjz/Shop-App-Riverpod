@@ -5,6 +5,7 @@ class AppStrings {
   static const email = "email";
   static const name = "name";
   static const okay = "okay";
+  static const delete = "delete";
   static const password = "password";
   static const confirmPassword = "confirmPassword";
   static const loggedInSuccessfully = "user logged In Successfully";
@@ -25,12 +26,27 @@ class AppStrings {
 
   static const String connectTimeOut = "connectTimeOut";
   static const String cancel = "cancel";
+  static const String cancelButton = "cancelButton";
   static const String receiveTimeOut = "receiveTimeOut";
   static const String sendTimeOut = "sendTimeOut";
   static const String cacheError = "cacheError";
   static const String noInternetConnection = "noInternetConnection";
   static const String defaultError = "defaultError";
   static const String products = "products";
+  static const String price = "price";
+  static const String quantity = "quantity";
   static const String previous = "previous";
   static const String next = "next";
+  static const String selectQuantity = "selectQuantity";
+  static const String pleaseLoginToViewProduct = "pleaseLoginToViewProduct";
+  static const String addToCart = "addToCart";
+  static const String goGuest = "goGuest";
+  static const String productsInCart = "productsInCart";
+  static const String totalPrice = "totalPrice";
+  static const String itemsCount = "itemsCount";
+  static const String deleteProductConfirmation = "deleteProductConfirmation";
+  static const String itemAddedToCartSuccessfully =
+      "itemAddedToCartSuccessfully";
+  static const String productDetails = "productDetails";
+  static const String details = "details";
 }
