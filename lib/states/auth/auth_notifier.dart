@@ -37,7 +37,7 @@ class AuthNotifier extends StateNotifier<IsLoading> {
                 userToken: data.userToken,
                 userId: data.userData!.id,
                 userName: data.userData!.name,
-                isTokenValid: true,
+                isUserLoggedIn: true,
               ),
             );
         return const Right(Void);
@@ -64,7 +64,7 @@ class AuthNotifier extends StateNotifier<IsLoading> {
                 userToken: data.userToken,
                 userId: data.userData!.id,
                 userName: data.userData!.name,
-                isTokenValid: true,
+                isUserLoggedIn: true,
               ),
             );
         return const Right(Void);

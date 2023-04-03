@@ -9,6 +9,7 @@ import 'package:shop_app_riverpod/app/resources/strings_manager.dart';
 import 'package:shop_app_riverpod/domain/requests.dart';
 import 'package:shop_app_riverpod/providers/auth/auth_page_type_provider.dart';
 import 'package:shop_app_riverpod/providers/auth/auth_provider.dart';
+import 'package:shop_app_riverpod/providers/auth/is_guest_provider.dart';
 import 'package:shop_app_riverpod/views/animations/loading_animation_view.dart';
 import 'package:shop_app_riverpod/views/auth/widgets/login_form.dart';
 import 'package:shop_app_riverpod/views/auth/widgets/register_form.dart';
@@ -39,10 +40,12 @@ class AuthPage extends ConsumerWidget {
 
     result.fold(
       (failure) => context.showNewDialog(
+        showCancelButton: false,
         title: AppStrings.error.tr(),
         content: failure.message,
       ),
       (_) => context.showNewDialog(
+        showCancelButton: false,
         title: AppStrings.success.tr(),
         content: AppStrings.loggedInSuccessfully.tr(),
       ),
@@ -109,6 +112,14 @@ class AuthPage extends ConsumerWidget {
                               isLoginPage
                                   ? AppStrings.registerInstead.tr()
                                   : AppStrings.loginInstead.tr(),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ref.read(isGuestProvider.notifier).logInAsGuest();
+                            },
+                            child: Text(
+                              AppStrings.goGuest.tr(),
                             ),
                           ),
                         ],

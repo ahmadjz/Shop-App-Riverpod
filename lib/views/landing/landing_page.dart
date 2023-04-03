@@ -16,7 +16,7 @@ class LandingPage extends ConsumerWidget {
           data: (_) => Consumer(
             builder: (context, consumerRef, child) {
               final userInfo = consumerRef.watch(userInfoProvider);
-              return userInfo.isTokenValid ? const HomePage() : AuthPage();
+              return userInfo.isUserLoggedIn ? const HomePage() : AuthPage();
             },
           ),
           error: (error, stackTrace) => const ErrorAnimationView(),

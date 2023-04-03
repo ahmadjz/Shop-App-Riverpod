@@ -9,6 +9,14 @@ abstract class RemoteDataSource {
   Future<TokenCheckResponse> checkToken(UserToken token);
   Future<LogoutResponse> logout(UserToken token);
   Future<ProductsResponse> fetchProducts(int page);
+  Future<CartResponse> addProductToCart(
+      int productId, int quantity, UserToken token);
+  Future<CartResponse> getCart(UserToken token);
+  Future<CartResponse> removeProductFromCart(
+    int productId,
+    UserToken token,
+  );
+  Future<ProductResponse> getProduct(int productId);
 }
 
 class RemoteDataSourceImplementer implements RemoteDataSource {
@@ -49,6 +57,39 @@ class RemoteDataSourceImplementer implements RemoteDataSource {
     return await appServiceClient.fetchProducts(
       10,
       page,
+    );
+  }
+
+  @override
+  Future<CartResponse> addProductToCart(
+      int productId, int quantity, UserToken token) async {
+    return await appServiceClient.addProductToCart(
+      productId,
+      quantity,
+      "Bearer $token",
+    );
+  }
+
+  @override
+  Future<CartResponse> getCart(UserToken token) async {
+    return await appServiceClient.getCart(
+      "Bearer $token",
+    );
+  }
+
+  @override
+  Future<CartResponse> removeProductFromCart(
+      int productId, UserToken token) async {
+    return await appServiceClient.removeProductFromCart(
+      productId,
+      "Bearer $token",
+    );
+  }
+
+  @override
+  Future<ProductResponse> getProduct(int productId) async {
+    return await appServiceClient.getProduct(
+      productId,
     );
   }
 }

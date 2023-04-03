@@ -39,7 +39,7 @@ extension LogoutResponseMapper on LogoutResponse? {
   }
 }
 
-extension ProductResponseMapper on ProductResponse? {
+extension ProductDataResponseMapper on ProductDataResponse? {
   ProductData toDomain() {
     return ProductData(
       id: this?.id ?? AppConstants.zero,
@@ -71,6 +71,49 @@ extension AllProductsResponseMapper on ProductsResponse? {
     return ProductsData(
       products: products,
       meta: this?.meta.toDomain(),
+    );
+  }
+}
+
+extension ProductInCartResponseMapper on ProductInCartResponse? {
+  ProductInCartData toDomain() {
+    return ProductInCartData(
+      id: this?.id ?? AppConstants.zero,
+      productId: this?.productId ?? AppConstants.zero,
+      totalQuantity: this?.totalQuantity ?? AppConstants.zero,
+      totalPrice: this?.totalPrice?.formatted ?? AppConstants.empty,
+      unitPrice: this?.unitPrice?.formatted ?? AppConstants.empty,
+    );
+  }
+}
+
+extension CartResponseMapper on CartResponse? {
+  CartData toDomain() {
+    List<ProductInCartData> productsInCart = (this
+                ?.data
+                ?.productsInCart
+                ?.map((productResponse) => productResponse.toDomain()) ??
+            const Iterable.empty())
+        .cast<ProductInCartData>()
+        .toList();
+    return CartData(
+      id: this?.data?.id ?? AppConstants.zero,
+      totalPrice: this?.data?.totalPrice?.formatted ?? AppConstants.empty,
+      itemCounts: this?.data?.itemsCount ?? AppConstants.zero,
+      productsInCart: productsInCart,
+    );
+  }
+}
+
+extension ProductResponseMapper on ProductResponse? {
+  ProductData toDomain() {
+    return ProductData(
+      id: this?.product?.id ?? AppConstants.zero,
+      title: this?.product?.title ?? AppConstants.empty,
+      description: this?.product?.description ?? AppConstants.empty,
+      price: this?.product?.price?.formatted ?? AppConstants.empty,
+      imageUrl: this?.product?.image?.conversions?.defaultConversion ??
+          AppConstants.empty,
     );
   }
 }

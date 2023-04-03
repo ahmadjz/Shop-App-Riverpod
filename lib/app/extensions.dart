@@ -5,16 +5,26 @@ import 'package:shop_app_riverpod/app/resources/strings_manager.dart';
 extension ContextExtension on BuildContext {
   void showNewDialog({
     required String title,
-    required String content,
+    required String? content,
+    required bool showCancelButton,
     String? buttonText,
     Function()? buttonAction,
+    Function()? thenFunction,
   }) =>
       showDialog(
+        barrierDismissible: false,
         context: this,
         builder: (context) => AlertDialog(
           title: Text(title),
-          content: Text(content),
+          content: content == null ? null : Text(content),
           actions: [
+            if (showCancelButton)
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                },
+                child: Text(AppStrings.cancelButton.tr()),
+              ),
             TextButton(
               child: Text(
                 buttonText ?? AppStrings.okay.tr(),
@@ -26,5 +36,7 @@ extension ContextExtension on BuildContext {
             )
           ],
         ),
+      ).then(
+        (value) => thenFunction?.call(),
       );
 }

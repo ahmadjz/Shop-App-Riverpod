@@ -26,7 +26,7 @@ Future<void> isTokenValid(IsTokenValidRef ref) async {
               userToken: userToken,
               userId: data.id,
               userName: data.name,
-              isTokenValid: true,
+              isUserLoggedIn: true,
             ),
           );
     },

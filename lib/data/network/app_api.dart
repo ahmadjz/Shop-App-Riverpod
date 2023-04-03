@@ -9,6 +9,8 @@ part 'app_api.g.dart';
 const String authorization = "authorization";
 const String perPage = "perpage";
 const String page = "page";
+const String productId = "product_id";
+const String quantity = "quantity";
 
 @RestApi(baseUrl: AppConstants.baseUrl)
 abstract class AppServiceClient {
@@ -39,5 +41,28 @@ abstract class AppServiceClient {
   Future<ProductsResponse> fetchProducts(
     @Query(perPage) int perPage,
     @Query(page) int page,
+  );
+
+  @PUT("cart/item")
+  Future<CartResponse> addProductToCart(
+    @Query(productId) int productId,
+    @Query(quantity) int quantity,
+    @Header(authorization) UserToken bearerToken,
+  );
+
+  @GET("cart")
+  Future<CartResponse> getCart(
+    @Header(authorization) UserToken bearerToken,
+  );
+
+  @DELETE("cart/item")
+  Future<CartResponse> removeProductFromCart(
+    @Query(productId) int productId,
+    @Header(authorization) UserToken bearerToken,
+  );
+
+  @GET("product/{id}")
+  Future<ProductResponse> getProduct(
+    @Path("id") int id,
   );
 }

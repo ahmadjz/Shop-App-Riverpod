@@ -1,12 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shop_app_riverpod/app/resources/strings_manager.dart';
+import 'package:shop_app_riverpod/providers/auth/is_guest_provider.dart';
 import 'package:shop_app_riverpod/providers/auth/logout_notifier_provider.dart';
+import 'package:shop_app_riverpod/providers/products/cart_provider.dart';
 import 'package:shop_app_riverpod/providers/products/products_provider.dart';
+import 'package:shop_app_riverpod/states/products/models/cart_state.dart';
 import 'package:shop_app_riverpod/views/animations/error_animation_view.dart';
 import 'package:shop_app_riverpod/views/animations/loading_animation_view.dart';
-import 'package:shop_app_riverpod/views/home/products/product_list_item.dart';
+import 'package:shop_app_riverpod/views/home/products/home_page_app_bar.dart';
+import 'package:shop_app_riverpod/views/home/products/home_page_body.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -20,6 +22,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productsStateProvider.notifier).fetchData();
+      ref.read(cartStateProvider.notifier).getCart();
     });
     super.didChangeDependencies();
   }
@@ -27,68 +30,26 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final isLogoutLoading = ref.watch(logoutNotifierProvider);
-    final logoutNotifier = ref.read(logoutNotifierProvider.notifier);
+    final isUserGuest = ref.watch(isGuestProvider);
     final productsState = ref.watch(productsStateProvider);
+    CartState? cartState;
+    if (!isUserGuest) {
+      cartState = ref.watch(cartStateProvider);
+    }
+    final isLoading = productsState.isLoading ||
+        isLogoutLoading ||
+        (cartState?.isLoading ?? false);
+    final isError =
+        productsState.isErrorAccord || (cartState?.isErrorAccord ?? false);
+
     return Scaffold(
-      appBar: productsState.isErrorAccord ||
-              productsState.isLoading ||
-              isLogoutLoading
-          ? null
-          : AppBar(
-              title: const Text(AppStrings.products),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      logoutNotifier.logout();
-                    },
-                    icon: const Icon(Icons.logout))
-              ],
-            ),
+      appBar: isLoading || isError ? null : const HomePageAppBar(),
       body: Center(
-        child: productsState.isErrorAccord
-            ? const ErrorAnimationView()
-            : productsState.isLoading || isLogoutLoading
-                ? const LoadingAnimationView()
-                : Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: productsState.products.length,
-                          itemBuilder: (context, index) {
-                            final product = productsState.products[index];
-                            return ProductListItem(product: product);
-                          },
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          if (productsState.currentPage > 1)
-                            TextButton(
-                              onPressed: () {
-                                ref
-                                    .read(productsStateProvider.notifier)
-                                    .gotToPreviousPage();
-                              },
-                              child: Text(AppStrings.previous.tr()),
-                            ),
-                          const Expanded(
-                            child: SizedBox.shrink(),
-                          ),
-                          if (productsState.currentPage <
-                              (productsState.lastPage ?? 10))
-                            TextButton(
-                              onPressed: () {
-                                ref
-                                    .read(productsStateProvider.notifier)
-                                    .gotToNextPage();
-                              },
-                              child: Text(AppStrings.next.tr()),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-      ),
+          child: isLoading
+              ? const LoadingAnimationView()
+              : isError
+                  ? const ErrorAnimationView()
+                  : const HomePageBody()),
     );
   }
 }

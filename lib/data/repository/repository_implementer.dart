@@ -6,6 +6,7 @@ import 'package:shop_app_riverpod/data/mapper/mapper.dart';
 import 'package:shop_app_riverpod/data/network/error_handler.dart';
 import 'package:shop_app_riverpod/data/network/failure.dart';
 import 'package:shop_app_riverpod/data/network/network_info.dart';
+import 'package:shop_app_riverpod/data/response/responses.dart';
 import 'package:shop_app_riverpod/domain/model/models.dart';
 import 'package:shop_app_riverpod/domain/repository/repository.dart';
 import 'package:shop_app_riverpod/domain/requests.dart';
@@ -97,9 +98,7 @@ class RepositoryImplementer implements Repository {
     if (await networkInfo.isConnected) {
       try {
         final response = await remoteDataSource.fetchProducts(page);
-        const x = 1;
         final ProductsData productsData = response.toDomain();
-        const y = 1;
         return Right(
           productsData,
         );
@@ -113,5 +112,117 @@ class RepositoryImplementer implements Repository {
         DataSource.noInternetConnection.getFailure(),
       );
     }
+  }
+
+  @override
+  Future<Either<Failure, ProductData>> getProduct(int productId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await remoteDataSource.getProduct(productId);
+        final ProductData productsData = response.toDomain();
+        return Right(
+          productsData,
+        );
+      } catch (error) {
+        return Left(
+          ErrorHandler.handle(error).failure,
+        );
+      }
+    } else {
+      return Left(
+        DataSource.noInternetConnection.getFailure(),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartData>> addProductToCart(
+      int productId, int quantity, UserToken token) async {
+    return _handleCartOperation(
+      () => remoteDataSource.addProductToCart(productId, quantity, token),
+    );
+  }
+
+  @override
+  Future<Either<Failure, CartData>> getCart(UserToken token) async {
+    return _handleCartOperation(() => remoteDataSource.getCart(token));
+  }
+
+  @override
+  Future<Either<Failure, CartData>> removeProductFromCart(
+      int productId, UserToken token) async {
+    return _handleCartOperation(
+      () => remoteDataSource.removeProductFromCart(productId, token),
+    );
+  }
+
+  Future<Either<Failure, CartData>> _handleCartOperation(
+      Future<CartResponse> Function() operation) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final response = await operation();
+        CartData cartData = response.toDomain();
+        // using this method to get the name for each product is not best practice because it makes too many requests
+        final updatedCartDataResult =
+            await _fetchAndUpdateProductNames(cartData);
+
+        return updatedCartDataResult.fold(
+          (failure) => Left(failure),
+          (updatedCartData) => Right(updatedCartData),
+        );
+      } catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(DataSource.noInternetConnection.getFailure());
+    }
+  }
+
+  Future<Either<Failure, CartData>> _fetchAndUpdateProductNames(
+      CartData cartData) async {
+    final updatedProductsInCart = <ProductInCartData>[];
+
+    for (var productInCart in cartData.productsInCart) {
+      final result = await getProduct(productInCart.productId);
+
+      final Either<Failure, ProductInCartData> updatedProductInCart =
+          result.fold(
+        (failure) {
+          return Left(failure);
+        },
+        (productData) {
+          return Right(ProductInCartData(
+            id: productInCart.id,
+            productId: productInCart.productId,
+            productName: productData.title,
+            totalQuantity: productInCart.totalQuantity,
+            totalPrice: productInCart.totalPrice,
+            unitPrice: productInCart.unitPrice,
+          ));
+        },
+      );
+
+      final updatedProduct = updatedProductInCart.fold(
+        (failure) => null,
+        (product) => product,
+      );
+
+      if (updatedProduct != null) {
+        updatedProductsInCart.add(updatedProduct);
+      } else {
+        return Left(
+          DataSource.defaultError.getFailure(),
+        );
+      }
+    }
+
+    return Right(
+      CartData(
+        id: cartData.id,
+        totalPrice: cartData.totalPrice,
+        itemCounts: cartData.itemCounts,
+        productsInCart: updatedProductsInCart,
+      ),
+    );
   }
 }

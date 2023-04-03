@@ -6,19 +6,19 @@ class AuthState {
   final UserToken? userToken;
   final UserId? userId;
   final String? userName;
-  final bool isTokenValid;
+  final bool isUserLoggedIn;
 
   const AuthState({
     required this.userToken,
     required this.userId,
     required this.userName,
-    required this.isTokenValid,
+    required this.isUserLoggedIn,
   });
 
   const AuthState.unknown()
       : userToken = null,
         userName = null,
-        isTokenValid = false,
+        isUserLoggedIn = false,
         userId = null;
 
   @override
@@ -26,7 +26,7 @@ class AuthState {
       identical(this, other) ||
       (userToken == other.userToken &&
           userId == other.userId &&
-          isTokenValid == other.isTokenValid &&
+          isUserLoggedIn == other.isUserLoggedIn &&
           userName == other.userName);
 
   @override
@@ -34,6 +34,6 @@ class AuthState {
         userToken,
         userId,
         userName,
-        isTokenValid,
+        isUserLoggedIn,
       );
 }

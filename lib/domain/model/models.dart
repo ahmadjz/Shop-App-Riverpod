@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:json_annotation/json_annotation.dart';
 import 'package:shop_app_riverpod/app/typedefs/typedefs.dart';
+
+part 'models.g.dart';
 
 class UserData {
   final UserId id;
@@ -28,6 +31,7 @@ class LogoutData {
   });
 }
 
+@JsonSerializable()
 class ProductData {
   final int id;
   final String title;
@@ -41,6 +45,10 @@ class ProductData {
     required this.price,
     required this.imageUrl,
   });
+
+  factory ProductData.fromJson(Map<String, dynamic> json) =>
+      _$ProductDataFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductDataToJson(this);
 }
 
 class MetaData {
@@ -58,5 +66,35 @@ class ProductsData {
   ProductsData({
     required this.products,
     required this.meta,
+  });
+}
+
+class ProductInCartData {
+  int id;
+  int productId;
+  String? productName;
+  int totalQuantity;
+  String totalPrice;
+  String unitPrice;
+  ProductInCartData({
+    required this.id,
+    required this.productId,
+    this.productName,
+    required this.totalQuantity,
+    required this.totalPrice,
+    required this.unitPrice,
+  });
+}
+
+class CartData {
+  int id;
+  String totalPrice;
+  int itemCounts;
+  List<ProductInCartData> productsInCart;
+  CartData({
+    required this.id,
+    required this.totalPrice,
+    required this.itemCounts,
+    required this.productsInCart,
   });
 }

@@ -107,8 +107,8 @@ Map<String, dynamic> _$ImageResponseToJson(ImageResponse instance) =>
       'conversions': instance.conversions,
     };
 
-ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
-    ProductResponse(
+ProductDataResponse _$ProductDataResponseFromJson(Map<String, dynamic> json) =>
+    ProductDataResponse(
       json['id'] as int?,
       json['title'] as String?,
       json['description'] as String?,
@@ -120,7 +120,8 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
           : ImageResponse.fromJson(json['image'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
+Map<String, dynamic> _$ProductDataResponseToJson(
+        ProductDataResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
@@ -187,7 +188,7 @@ Map<String, dynamic> _$MetaResponseToJson(MetaResponse instance) =>
 ProductsResponse _$ProductsResponseFromJson(Map<String, dynamic> json) =>
     ProductsResponse(
       (json['data'] as List<dynamic>?)
-          ?.map((e) => ProductResponse.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ProductDataResponse.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['links'] == null
           ? null
@@ -202,4 +203,72 @@ Map<String, dynamic> _$ProductsResponseToJson(ProductsResponse instance) =>
       'data': instance.products,
       'links': instance.links,
       'meta': instance.meta,
+    };
+
+ProductInCartResponse _$ProductInCartResponseFromJson(
+        Map<String, dynamic> json) =>
+    ProductInCartResponse(
+      json['id'] as int?,
+      json['product_id'] as int?,
+      json['total_quantity'] as int?,
+      json['total'] == null
+          ? null
+          : PriceResponse.fromJson(json['total'] as Map<String, dynamic>),
+      json['unit_price'] == null
+          ? null
+          : PriceResponse.fromJson(json['unit_price'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ProductInCartResponseToJson(
+        ProductInCartResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'product_id': instance.productId,
+      'total_quantity': instance.totalQuantity,
+      'total': instance.totalPrice,
+      'unit_price': instance.unitPrice,
+    };
+
+CartDataResponse _$CartDataResponseFromJson(Map<String, dynamic> json) =>
+    CartDataResponse(
+      json['id'] as int?,
+      json['total'] == null
+          ? null
+          : PriceResponse.fromJson(json['total'] as Map<String, dynamic>),
+      json['items'] as int?,
+      (json['products'] as List<dynamic>?)
+          ?.map(
+              (e) => ProductInCartResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CartDataResponseToJson(CartDataResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'total': instance.totalPrice,
+      'items': instance.itemsCount,
+      'products': instance.productsInCart,
+    };
+
+CartResponse _$CartResponseFromJson(Map<String, dynamic> json) => CartResponse(
+      json['data'] == null
+          ? null
+          : CartDataResponse.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CartResponseToJson(CartResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) =>
+    ProductResponse(
+      json['data'] == null
+          ? null
+          : ProductDataResponse.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
+    <String, dynamic>{
+      'data': instance.product,
     };

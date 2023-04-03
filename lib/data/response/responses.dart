@@ -129,7 +129,7 @@ class ImageResponse {
 }
 
 @JsonSerializable()
-class ProductResponse {
+class ProductDataResponse {
   @JsonKey(name: "id")
   int? id;
   @JsonKey(name: "title")
@@ -141,7 +141,7 @@ class ProductResponse {
   @JsonKey(name: "image")
   ImageResponse? image;
 
-  ProductResponse(
+  ProductDataResponse(
     this.id,
     this.title,
     this.description,
@@ -149,10 +149,10 @@ class ProductResponse {
     this.image,
   );
 
-  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProductResponseFromJson(json);
+  factory ProductDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductDataResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductResponseToJson(this);
+  Map<String, dynamic> toJson() => _$ProductDataResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -239,7 +239,7 @@ class MetaResponse {
 @JsonSerializable()
 class ProductsResponse {
   @JsonKey(name: "data")
-  List<ProductResponse>? products;
+  List<ProductDataResponse>? products;
   @JsonKey(name: "links")
   LinksResponse? links;
   @JsonKey(name: "meta")
@@ -255,4 +255,85 @@ class ProductsResponse {
       _$ProductsResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductsResponseToJson(this);
+}
+
+@JsonSerializable()
+class ProductInCartResponse {
+  @JsonKey(name: "id")
+  int? id;
+  @JsonKey(name: "product_id")
+  int? productId;
+  @JsonKey(name: "total_quantity")
+  int? totalQuantity;
+  @JsonKey(name: "total")
+  PriceResponse? totalPrice;
+  @JsonKey(name: "unit_price")
+  PriceResponse? unitPrice;
+
+  ProductInCartResponse(
+    this.id,
+    this.productId,
+    this.totalQuantity,
+    this.totalPrice,
+    this.unitPrice,
+  );
+
+  factory ProductInCartResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductInCartResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductInCartResponseToJson(this);
+}
+
+@JsonSerializable()
+class CartDataResponse {
+  @JsonKey(name: "id")
+  int? id;
+  @JsonKey(name: "total")
+  PriceResponse? totalPrice;
+  @JsonKey(name: "items")
+  int? itemsCount;
+  @JsonKey(name: "products")
+  List<ProductInCartResponse>? productsInCart;
+
+  CartDataResponse(
+    this.id,
+    this.totalPrice,
+    this.itemsCount,
+    this.productsInCart,
+  );
+
+  factory CartDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$CartDataResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class CartResponse {
+  @JsonKey(name: "data")
+  CartDataResponse? data;
+
+  CartResponse(
+    this.data,
+  );
+
+  factory CartResponse.fromJson(Map<String, dynamic> json) =>
+      _$CartResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartResponseToJson(this);
+}
+
+@JsonSerializable()
+class ProductResponse {
+  @JsonKey(name: "data")
+  ProductDataResponse? product;
+
+  ProductResponse(
+    this.product,
+  );
+
+  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductResponseToJson(this);
 }

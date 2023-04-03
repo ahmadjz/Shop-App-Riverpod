@@ -12,4 +12,14 @@ abstract class Repository {
   Future<Either<Failure, UserData>> checkToken(UserToken token);
   Future<Either<Failure, LogoutData>> logout(UserToken token);
   Future<Either<Failure, ProductsData>> fetchProducts(int page);
+  Future<Either<Failure, CartData>> addProductToCart(
+      int productId, int quantity, UserToken token);
+  Future<Either<Failure, CartData>> getCart(UserToken token);
+  Future<Either<Failure, CartData>> removeProductFromCart(
+    int productId,
+    UserToken token,
+  );
+  Future<Either<Failure, ProductData>> getProduct(
+    int productId,
+  );
 }
