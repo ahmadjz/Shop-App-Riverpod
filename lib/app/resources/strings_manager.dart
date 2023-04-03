@@ -8,7 +8,7 @@ class AppStrings {
   static const delete = "delete";
   static const password = "password";
   static const confirmPassword = "confirmPassword";
-  static const loggedInSuccessfully = "user logged In Successfully";
+  static const loggedInSuccessfully = "loggedInSuccessfully";
   static const loginButton = "loginButton";
   static const registerButton = "registerButton";
   static const registerInstead = "registerInstead";
