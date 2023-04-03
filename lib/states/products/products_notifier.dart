@@ -20,6 +20,10 @@ class ProductsNotifier extends StateNotifier<ProductsState> {
     return await fetchData();
   }
 
+  void restoreDefaultPage() async {
+    state = state.copyWith(currentPage: 1);
+  }
+
   Future<Either<Failure, void>> gotToPreviousPage() async {
     state = state.copyWith(currentPage: state.currentPage - 1);
     return await fetchData();
