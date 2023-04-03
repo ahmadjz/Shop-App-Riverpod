@@ -5,7 +5,7 @@
   "email": "email",
   "name": "name",
   "okay": "okay",
-  "loggedInSuccessfully": "user logged In Successfully",
+  "loggedInSuccessfully": "loggedInSuccessfully",
   "password": "password",
   "confirmPassword": "Confirm Password",
   "loginButton": "Login",
